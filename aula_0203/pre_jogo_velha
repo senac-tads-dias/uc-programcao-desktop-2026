@@ -1,0 +1,50 @@
+import tkinter as tk
+from tkinter import messagebox
+
+def trocar_nome(p):
+    globals()[f"btn{p}"].config(text="X", state="disabled")
+
+def start():
+    print("start jogo")
+
+def abrir_popup():
+    messagebox.showinfo("Status do Jogo", "Voce perdeu!!!!")
+
+
+#criando Janela
+janela = tk.Tk()
+janela.title("Jogo da velha")
+janela.geometry("350x380")
+
+janela.rowconfigure(0, weight=1)
+janela.rowconfigure(1, weight=2)
+janela.columnconfigure(0, weight=1)
+janela.config(bg="black")
+
+
+frame_topo = tk.Frame(janela, bg="blue", width=300, height=300)
+frame_topo.grid(row=0, column=0)
+frame_topo.columnconfigure(0, weight=1)
+
+frame_footer = tk.Frame(janela, bg="lightblue", width=290, height=80)
+frame_footer.grid(row=1, column=0)
+frame_footer.columnconfigure(0, weight=1)
+
+
+botoes = [
+    ('', 1, 0, 0), ('', 1, 1, 1), ('', 1, 2, 2), 
+    ('', 2, 0, 3), ('', 2, 1, 4), ('', 2, 2, 5),
+    ('', 3, 0, 6), ('', 3, 1, 7), ('', 3, 2, 8)   
+]
+
+#Criar os botões com base na lista de tuplas
+for(texto, linha, coluna, pos) in botoes:
+    globals()[f'btn{pos}'] = tk.Button(frame_topo, text=texto, width=5, height=2, 
+                    command= lambda t = pos: trocar_nome(t), font=('Arial', 20))
+    globals()[f'btn{pos}'].grid(row=linha, column=coluna, padx=2, pady=2)
+   
+#Botão para limpar
+botao_start = tk.Button(frame_footer, text="Start", command=abrir_popup )
+botao_start.grid(row=0, column=0)
+
+janela.mainloop()
